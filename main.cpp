@@ -9,7 +9,7 @@ using namespace sf;
 const int W = 800;
 const int H = 600;
 
-float DEGTORAD = 0.017453f;  // константа для перевода в радианы
+float DEGTORAD = 0.017453f;  // РїРµСЂРµРјРµРЅРЅР°СЏ РґР»СЏ РїРµСЂРµРІРѕРґР° РІ СЂР°РґРёР°РЅС‹
 
 class Animation
 {
@@ -156,7 +156,7 @@ public:
 		name = "player";
 	}
 
-	void update() // функция передвижения корабля
+	void update() // С„СѓРЅРєС†РёСЏ РґРІРёР¶РµРЅРёСЏ РІРїРµСЂРµРґ
 	{
 		if (thrust)
 		{
@@ -187,7 +187,7 @@ public:
 };
 
 
-bool isCollide(Entity *a, Entity *b) // функция столкновения
+bool isCollide(Entity *a, Entity *b) // С„СѓРЅРєС†РёСЏ СЃС‚РѕР»РєРЅРѕРІРµРЅРёСЏ
 {
 	return (b->x - a->x)*(b->x - a->x) +
 		(b->y - a->y)*(b->y - a->y) <
@@ -203,11 +203,11 @@ int main()
 	RenderWindow app(VideoMode(W, H), "Asteroids");
 	app.setFramerateLimit(60);
 
-	Texture t1, t2, t3, t4, t5, t6, t7; // прогрузка текстур
+	Texture t1, t2, t3, t4, t5, t6, t7;
 
 	SoundBuffer shotBuffer, explBuffer;
 	Sound Shot(shotBuffer), Explosion(explBuffer);
-
+        // Р·Р°РіСЂСѓР·РєР° СЂРµСЃСѓСЂСЃРѕРІ
 	t1.loadFromFile("resources/ship.png");
 	t2.loadFromFile("resources/background.jpg");
 	t3.loadFromFile("resources/type_C.png");
@@ -224,7 +224,7 @@ int main()
 	Font font;
 	font.loadFromFile("resources/pixelfont.ttf");
 
-	Text text, gameover; // переменные для вывода текста
+	Text text, gameover; // СЂР°Р±РѕС‚Р° СЃ С‚РµРєСЃС‚РѕРј
 	std::ostringstream ssScore;
 	std::ostringstream ssGameover;
 	gameover.setCharacterSize(16);
@@ -241,7 +241,7 @@ int main()
 
 	Sprite background(t2);
 
-	Animation sExplosion(t3, 0, 0, 256, 256, 48, 0.5); // анимирование спрайтов
+	Animation sExplosion(t3, 0, 0, 256, 256, 48, 0.5); // СЃРѕР·РґР°РЅРёРµ Р°РЅРёРјР°С†РёРё
 	Animation sRock(t4, 0, 0, 64, 64, 16, 0.4);
 	Animation sRock_small(t6, 0, 0, 64, 64, 16, 0.8);
 	Animation sBullet(t5, 0, 0, 32, 64, 16, 0.8);
@@ -251,13 +251,13 @@ int main()
 
 	std::list<Entity*> entities;
 
-	player *p = new player(); // генерация и спавн игрока
+	player *p = new player(); // РіРµРЅРµСЂР°С†РёСЏ РёРіСЂРѕРєР°
 	p->settings(sPlayer, W / 2, H / 2, 0, 20);
 	entities.push_back(p);
 	
 	bool gamestarted = false;
 
-	while (app.isOpen()) // основная логика
+	while (app.isOpen()) // РѕСЃРЅРѕРІРЅР°СЏ Р»РѕРіРёРєР°
 	{
 		Event event;
 		while (app.pollEvent(event))
@@ -265,7 +265,7 @@ int main()
 			if (event.type == Event::Closed)
 				app.close();
 
-			if (event.type == Event::KeyPressed) // для того, чтобы игрок не стрелял "спреем"
+			if (event.type == Event::KeyPressed) // РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РёРіСЂРѕРє РЅРµ Р·Р°Р¶РёРјР°Р» РєР»Р°РІРёС€Сѓ СЃС‚СЂРµР»СЊР±С‹
 				if (event.key.code == Keyboard::Space)
 				{
 					bullet *b = new bullet();
@@ -275,7 +275,7 @@ int main()
 				}
 		}
 
-		if (Keyboard::isKeyPressed(Keyboard::Space)) // для начала игры необходимо нажать пробел
+		if (Keyboard::isKeyPressed(Keyboard::Space)) // РЅР°С‡Р°Р»Рѕ РёРіСЂС‹ РїРѕСЃР»Рµ РЅР°Р¶Р°С‚РёСЏ РїСЂРѕР±РµР»Р°
 		{
 			gamestarted = true;
 		}
@@ -283,20 +283,20 @@ int main()
 		if (gamestarted)
 		{
 			ssGameover.str("");
-			gameover.setString(ssGameover.str()); // для снятия надписи 'game over'
+			gameover.setString(ssGameover.str());
 
-			if (Keyboard::isKeyPressed(Keyboard::Right)) p->angle += 3; // поворот корабля
+			if (Keyboard::isKeyPressed(Keyboard::Right)) p->angle += 3; // РїРѕРІРѕСЂРѕС‚С‹ РёРіСЂРѕРєР°
 			if (Keyboard::isKeyPressed(Keyboard::Left))  p->angle -= 3;
 			if (Keyboard::isKeyPressed(Keyboard::Up)) {
 	
 				p->thrust = true;
 			}
-			else p->thrust = false; // включение двигателя (корабль двигается только вперед)
+			else p->thrust = false; 
 
 			for (auto a : entities)
 				for (auto b : entities)
 				{
-					if (a->name == "asteroid" && b->name == "bullet") // проверка на столкновение астероида со снарядом
+					if (a->name == "asteroid" && b->name == "bullet") //СЃС‚РѕР»РєРЅРѕРІРµРЅРёРµ СЃРЅР°СЂСЏРґР° Рё Р°СЃС‚РµСЂРѕРёРґР°
 						if (isCollide(a, b))
 						{
 							a->life = false;
@@ -312,7 +312,7 @@ int main()
 							entities.push_back(e);
 							Explosion.play();
 
-							for (int i = 0; i < 2; i++) // генерация 2-х обломков астероида
+							for (int i = 0; i < 2; i++) // РіРµРЅРµСЂР°С†РёСЏ 2-С… РѕСЃРєРѕР»РєРѕРІ
 							{
 								if (a->R == 15) continue;
 								Entity *e = new asteroid();
@@ -322,7 +322,7 @@ int main()
 
 						}
 
-					if (a->name == "player" && b->name == "asteroid") // проверка на столкновение игрока и астероида
+					if (a->name == "player" && b->name == "asteroid") // СЃС‚РѕР»РєРЅРѕРІРµРЅРёРµ РёРіСЂРѕРєР° Рё Р°СЃС‚РµСЂРѕРёРґР°
 						if (isCollide(a, b))
 						{
 							b->life = false;
@@ -350,7 +350,7 @@ int main()
 				if (e->name == "explosion")
 					if (e->anim.isEnd()) e->life = 0;
 
-			if (rand() % 100 == 0) // генерация астероидов
+			if (rand() % 100 == 0) // РіРµРЅРµСЂР°С†РёСЏ Р°СЃС‚РµСЂРѕРёРґРѕРІ
 			{
 				asteroid *a = new asteroid();
 				a->settings(sRock, 0, rand() % H, rand() % 360, 25);
