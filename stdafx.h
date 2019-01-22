@@ -1,0 +1,15 @@
+#pragma once
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include "animation.h"
+#include "entity.h"
+#include "player.h"
+#include "bullet.h"
+#include "asteroid.h"
+#include "constant.h"
+#include "text.h"
+#include "game.h"
+#include <time.h>
+#include <list>
+#include <sstream>
+#include <string>
